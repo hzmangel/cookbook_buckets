@@ -26,7 +26,5 @@ class CookbooksController < ApplicationController
 
   def prepare_rcd
     @rcd = Cookbook.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
   end
 end
