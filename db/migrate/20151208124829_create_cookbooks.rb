@@ -4,6 +4,7 @@ class CreateCookbooks < ActiveRecord::Migration
       t.string :name
       t.string :image
       t.string :desc
+      t.string :gdoc_url
 
       t.timestamps
 
