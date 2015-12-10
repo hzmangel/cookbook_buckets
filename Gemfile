@@ -12,9 +12,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem "haml-rails", "~> 0.9"
-gem 'angularjs-rails'
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'haml-rails', '~> 0.9'
+gem 'bower-rails', '~> 0.10.0'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
