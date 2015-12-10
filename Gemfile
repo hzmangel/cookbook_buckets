@@ -14,6 +14,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem "haml-rails", "~> 0.9"
 gem 'angularjs-rails'
+gem 'bootstrap-sass', '~> 3.3.6'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
