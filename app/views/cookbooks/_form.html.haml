@@ -17,6 +17,13 @@
         %label
           Materials
           %button.btn.btn-xs{data: {'ng-click': 'addMaterial()'}} Add
+          .row{data: {'ng-repeat': 'material in cookbook.material_attributes track by material.name'}}
+            .col-xs-5
+              %input.form-control{type: :text, placeholder: 'Material name', data: {'ng-model': 'material.name'}}
+            .col-xs-3
+              %input.form-control{type: :text, placeholder: 'Material quantity', data: {'ng-model': 'material.quantity'}}
+            .col-xs-4
+              %input.form-control{type: :text, placeholder: 'Material unit', data: {'ng-model': 'material.unit'}}
 
   .modal-footer
     %button.btn.btn-link{type: :button, data: {'ng-click': 'cancel()'}} Cancel

@@ -15,9 +15,25 @@ controller 'CookbookListController', [
     $scope.popularCookbookList = ->
       $scope.selected_idx = -1
       $scope.cookbook_list = [
-        {id: 1, name: "Cookbook_1", desc: "Desc of Cookbook_1"},
-        {id: 2, name: "Cookbook_2", desc: "Desc of Cookbook_2"},
-        {id: 3, name: "Cookbook_3", desc: "Desc of Cookbook_3"}
+        {
+          id: 1
+          name: "Cookbook_1"
+          desc: "Desc of Cookbook_1"
+        }
+        {
+          id: 2
+          name: "Cookbook_2"
+          desc: "Desc of Cookbook_2"
+        }
+        {
+          id: 3
+          name: "Cookbook_3",
+          desc: "Desc of Cookbook_3",
+          material_attributes: [
+            {name: 'material_1', quantity: '100', unit: 'cm'}
+            {name: 'material_2', quantity: '10', unit: 'kg'}
+          ]
+        }
       ]
 
     $scope.new = ->
