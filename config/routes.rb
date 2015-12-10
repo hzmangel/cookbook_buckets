@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  root 'cookbooks#index'
+  root 'home#index'
   resources :cookbooks, except: [:new, :edit]
 end
