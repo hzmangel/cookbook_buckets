@@ -15,4 +15,6 @@
 //= require bootstrap
 //= require angular/angular
 //= require ng-table/dist/ng-table
+//= require angular-bootstrap/ui-bootstrap
+//= require angular-bootstrap/ui-bootstrap-tpls
 //= require_tree .

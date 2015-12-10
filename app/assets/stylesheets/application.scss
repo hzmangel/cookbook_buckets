@@ -1,4 +1,7 @@
 @import "bootstrap/dist/css/bootstrap";
 @import "bs_fonts";
 @import "ng-table/dist/ng-table";
+@import "angular-bootstrap/ui-bootstrap-csp";
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
