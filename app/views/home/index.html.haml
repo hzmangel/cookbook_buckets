@@ -1,0 +1,15 @@
+.container{data: {'ng-controller': 'CookbookListController'}}
+  %h2.page-header
+    Cookbooks
+    .pull-right
+      %a.btn.btn-success.btn-sm{data: {'ng-click': 'newCookbookModal()', 'ng-href': '#'}} New
+
+  %div{'ng-init': 'popularCookbookList()'}
+    %table.table.table-striped.table-condensed{data: {'ng-table': 'tableParams'}}
+      %tr{data: {'ng-repeat': 'cookbook in cookbook_list track by cookbook.id'}}
+        %td{data: {title: '"Name"', sortable: ' "name" '}}{{cookbook.name}}
+        %td{data: {title: '"Desc"', sortable: false}}{{cookbook.desc}}
+        %td{data: {title: '"CreatedAt"', sortable: ' "created_at" '}}{{cookbook.created_at}}
+        %td
+          %a.btn.btn-primary.btn-sm{data: {'ng-click': 'editCookbookModal()', 'ng-href': '#'}} Edit
+          %a.btn.btn-danger.btn-sm{data: {'ng-click': 'deleteCookbookModal()', 'ng-href': '#'}} Delete

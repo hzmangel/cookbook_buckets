@@ -1,6 +1,5 @@
-#source 'https://rubygems.org'
+# source 'https://rubygems.org'
 source 'https://ruby.taobao.org'
-
 
 gem 'rails', '4.2.3'
 gem 'sqlite3'
@@ -11,6 +10,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
+
+gem 'haml-rails', '~> 0.9'
+gem 'bower-rails', '~> 0.10.0'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -23,4 +25,3 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
 end
-
