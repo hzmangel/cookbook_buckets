@@ -1,6 +1,5 @@
-#source 'https://rubygems.org'
+# source 'https://rubygems.org'
 source 'https://ruby.taobao.org'
-
 
 gem 'rails', '4.2.3'
 gem 'sqlite3'
@@ -26,4 +25,3 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
 end
-
