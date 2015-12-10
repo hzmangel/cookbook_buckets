@@ -4,7 +4,7 @@
   %h2.page-header
     Cookbooks
     .pull-right
-      %a.btn.btn-success.btn-sm{data: {'ng-click': 'newCookbookModal()', 'ng-href': '#'}} New
+      %a.btn.btn-success.btn-sm{data: {'ng-click': 'new()', 'ng-href': '#'}} New
 
   %div{'ng-init': 'popularCookbookList()'}
     %table.table.table-striped.table-condensed{data: {'ng-table': 'tableParams'}}
@@ -13,5 +13,5 @@
         %td{data: {title: '"Desc"', sortable: false}}{{cookbook.desc}}
         %td{data: {title: '"CreatedAt"', sortable: ' "created_at" '}}{{cookbook.created_at}}
         %td
-          %a.btn.btn-primary.btn-sm{data: {'ng-click': 'editCookbookModal()', 'ng-href': '#'}} Edit
-          %a.btn.btn-danger.btn-sm{data: {'ng-click': 'deleteCookbookModal()', 'ng-href': '#'}} Delete
+          %a.btn.btn-primary.btn-sm{data: {'ng-click': 'edit($index)', 'ng-href': '#'}} Edit
+          %a.btn.btn-danger.btn-sm{data: {'ng-click': 'delete($index)', 'ng-href': '#'}} Delete
