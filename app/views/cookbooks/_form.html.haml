@@ -1,0 +1,23 @@
+%script{type: 'text/ng-template', id: 'cookbookForm.html'}
+  .modal-header
+    %h3.modal-title{'ng-if': 'modal_type === "new"'} Create cookbook
+    %h3.modal-title{'ng-if': 'modal_type === "edit"'} Edit cookbook
+  .modal-body
+    %form
+      .form-group
+        %label Name
+        %input.form-control{type: :text, placeholder: 'Please enter name', data: {'ng-model': 'cookbook.name'}}
+
+      .form-group
+        %label Desc
+        %textarea.form-control{placeholder: 'Please enter desc', data: {'ng-model': 'cookbook.desc'}}
+
+      .form-group
+        -# TODO: Implement this like fields_for
+        %label
+          Materials
+          %button.btn.btn-xs{data: {'ng-click': 'addMaterial()'}} Add
+
+  .modal-footer
+    %button.btn.btn-link{type: :button, data: {'ng-click': 'cancel()'}} Cancel
+    %button.btn.btn-primary{type: :button, data: {'ng-click': 'ok()'}} OK
