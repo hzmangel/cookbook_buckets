@@ -37,6 +37,7 @@ class CookbooksController < ApplicationController
     if @rcd.destroy
       head :no_content
     else
+      render json: { errors: @rcd.errors }
     end
   end
 
