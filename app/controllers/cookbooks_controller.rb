@@ -9,23 +9,50 @@ class CookbooksController < ApplicationController
   end
 
   def create
-    # TODO: Save record to Database
-    # TODO: Save record to GSheet, shareable
+    @rcd = Cookbook.new(permit_params)
+
+    if @rcd.save
+      # TODO: Save record to GSheet with shareable permission
+      render json: @rcd, status: :created
+    else
+      # TODO: render with error code or status code
+      render json: { errors: @rcd.errors }
+    end
   end
 
   def show
   end
 
   def update
+    if @rcd.update(permit_params)
+      # TODO: Update GDoc content
+      render json: @rcd
+    else
+      # TODO: render with error code or status code
+      render json: { errors: @rcd.errors }
+    end
   end
 
   def destroy
-    @rcd.destroy
+    if @rcd.destroy
+      head :no_content
+    else
+    end
   end
 
   private
 
   def prepare_rcd
     @rcd = Cookbook.find(params[:id])
+  end
+
+  def permit_params
+    params.require(:cookbook).permit([
+      :name,
+      :image,
+      :desc,
+      { materials_attributes: [:id, :name, :quantity, :unit, :_destroy] },
+      { tags_attributes: [:id, :name] }
+    ])
   end
 end
