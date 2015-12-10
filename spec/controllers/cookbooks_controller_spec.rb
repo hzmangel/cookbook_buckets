@@ -26,9 +26,9 @@ RSpec.describe CookbooksController, type: :controller do
         post :create, valid_params
       end
 
-      it { expect { response }.to change(Cookbook, :count).by(1) }
-      it { expect { response }.to change(Material, :count).by(2) }
-      it { expect(response.status).to eq 201 }
+      it { expect { subject }.to change(Cookbook, :count).by(1) }
+      it { expect { subject }.to change(Material, :count).by(2) }
+      it { expect(subject.status).to eq 201 }
     end
   end
 
@@ -54,9 +54,9 @@ RSpec.describe CookbooksController, type: :controller do
         patch :update, id: cookbook.id, cookbook: params
       end
 
-      it { expect { response }.not_to change(Cookbook, :count) }
-      it { expect { response }.to change(Material, :count).by(1) }
-      it { expect(response.status).to eq 200 }
+      it { expect { subject }.not_to change(Cookbook, :count) }
+      it { expect { subject }.to change(Material, :count).by(1) }
+      it { expect(subject.status).to eq 200 }
     end
 
     context 'when removing materials' do
@@ -73,9 +73,9 @@ RSpec.describe CookbooksController, type: :controller do
         patch :update, id: cookbook.id, cookbook: params
       end
 
-      it { expect { response }.not_to change(Cookbook, :count) }
-      it { expect { response }.to change(Material, :count).by(-1) }
-      it { expect(response.status).to eq 200 }
+      it { expect { subject }.not_to change(Cookbook, :count) }
+      it { expect { subject }.to change(Material, :count).by(-1) }
+      it { expect(subject.status).to eq 200 }
     end
   end
 
@@ -90,9 +90,9 @@ RSpec.describe CookbooksController, type: :controller do
         delete :destroy, id: cookbook.id
       end
 
-      it { expect { response }.to change(Cookbook, :count).by(-1) }
-      it { expect { response }.to change(Material, :count).by(-5) }
-      it { expect(response.status).to eq 204 }
+      it { expect { subject }.to change(Cookbook, :count).by(-1) }
+      it { expect { subject }.to change(Material, :count).by(-5) }
+      it { expect(subject.status).to eq 204 }
     end
   end
 end
