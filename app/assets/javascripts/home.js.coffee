@@ -6,6 +6,16 @@ cookbookApp = angular.module('cookbookApp', [
   'ngTable'
   'ui.bootstrap'
 ])
+
+# Resource for cookbook API
+cookbookApp.factory 'Cookbooks', [
+  '$resource'
+  ($resource) ->
+    $resource 'cookbooks/:cookbookId', { cookbookId: '@id' },
+      update:
+        method: 'PATCH'
+]
+
 # Main controller
 cookbookApp.controller 'CookbookListController', [
   '$scope'
