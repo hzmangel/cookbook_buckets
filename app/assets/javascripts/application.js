@@ -19,4 +19,5 @@
 //= require angular-bootstrap
 //= require angular-bootstrap
 //= require angular-ui-notification
+//= require ng-tags-input
 //= require_tree .

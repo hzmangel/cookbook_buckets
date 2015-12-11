@@ -16,7 +16,7 @@
         %tr{data: {'ng-repeat': 'cookbook in $data track by cookbook.id'}}
           %td{data: {title: '"Name"'}, sortable: ' "name" '}{{cookbook.name}}
           %td{data: {title: '"Desc"'}, sortable: false}{{cookbook.desc}}
-          %td{data: {title: '"CreatedAt"'}, sortable: ' "created_at" '}{{cookbook.created_at}}
-          %td
-            %a.btn.btn-primary.btn-sm{data: {'ng-click': 'edit($index)', 'ng-href': '#'}} Edit
-            %a.btn.btn-danger.btn-sm{data: {'ng-click': 'delete($index)', 'ng-href': '#'}} Delete
+          %td.text-center{data: {title: '"CreatedAt"'}, sortable: ' "created_at" '}{{cookbook.created_at}}
+          %td.col-md-2
+            %a.btn.btn-primary.btn-sm{data: {'ng-click': 'edit(cookbook.id)', 'ng-href': '#'}} Edit
+            %a.btn.btn-danger.btn-sm{data: {'ng-click': 'delete(cookbook.id)', 'ng-href': '#'}} Delete

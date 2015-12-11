@@ -6,7 +6,6 @@ class CookbooksController < ApplicationController
 
   def index
     @rcds = Cookbook.all
-    render json: @rcds
   end
 
   def create
@@ -26,6 +25,7 @@ class CookbooksController < ApplicationController
 
   def update
     if @rcd.update(permit_params)
+      @rcd.process_tags(params[:tags])
       # TODO: Update GDoc content
       render json: @rcd
     else
@@ -49,7 +49,7 @@ class CookbooksController < ApplicationController
   end
 
   def permit_params
-    params.require(:cookbook).permit([
+    params.permit([
       :name,
       :image,
       :desc,

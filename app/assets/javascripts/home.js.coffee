@@ -4,6 +4,7 @@
 cookbookApp = angular.module('cookbookApp', [
   'ngResource'
   'ngTable'
+  'ngTagsInput'
   'ui.bootstrap'
   'ui-notification'
 ])
@@ -44,19 +45,18 @@ cookbookApp.controller 'CookbookListController', [
 
     $scope.popularCookbookList = ->
       $scope.cookbooks = Cookbooks.query()
-      $scope.selected_idx = -1
+      $scope.selected_id = 0
 
     $scope.new = ->
       $scope.cookbook = new Cookbooks({})
-      $scope.selected_idx = -1
+      $scope.selected_id = 0
       $scope.openModal('new')
 
-    $scope.edit = (idx) ->
-      $scope.cookbook = angular.copy $scope.cookbooks[idx]
-      $scope.selected_idx = idx
+    $scope.edit = (rcd_id) ->
+      $scope.selected_id = rcd_id
       $scope.openModal('edit')
 
-    $scope.delete = (idx) ->
+    $scope.delete = (rcd_id) ->
       $scope.cookbook = $scope.cookbooks[idx]
       $scope.cookbook.$delete ( ->
         $scope.cookbooks = Cookbooks.query()
@@ -66,6 +66,8 @@ cookbookApp.controller 'CookbookListController', [
         return
 
     $scope.openModal = (modal_type) ->
+      $scope.cookbook = $filter('filter')($scope.cookbooks, id: $scope.selected_id)[0]
+
       modalInstance = $uibModal.open(
         animation: true
         templateUrl: 'cookbookForm.html'
@@ -78,15 +80,15 @@ cookbookApp.controller 'CookbookListController', [
       )
 
       modalInstance.result.then (cookbook) ->
-        if $scope.selected_idx != -1
-          $scope.cookbook.$update ( ->
+        if $scope.selected_id != 0
+          cookbook.$update ( ->
             $scope.cookbooks = Cookbooks.query()
             Notification.success('Record updated Successfully')
           ), (errorResponse) ->
             Notification.error(errorResponse.data.message)
             return
         else
-          $scope.cookbook.$save ((cookbook, req) ->
+          cookbook.$save ((cookbook, req) ->
             $scope.cookbooks = Cookbooks.query()
             Notification.success('Record created Successfully')
           ), (errorResponse) ->
@@ -105,6 +107,9 @@ controller 'CookbookModalInstanceCtrl',
 
   $scope.cookbook = cookbook
   $scope.modal_type = modal_type
+
+  # console.log cookbook
+  # console.log $scope.cookbook
 
   $scope.ok = ->
     $uibModalInstance.close $scope.cookbook
