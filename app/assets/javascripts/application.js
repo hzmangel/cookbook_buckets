@@ -18,4 +18,5 @@
 //= require ng-table
 //= require angular-bootstrap
 //= require angular-bootstrap
+//= require angular-ui-notification
 //= require_tree .
