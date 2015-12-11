@@ -49,7 +49,7 @@ class CookbooksController < ApplicationController
   end
 
   def permit_params
-    params.require(:cookbook).permit([
+    params.permit([
       :name,
       :image,
       :desc,
