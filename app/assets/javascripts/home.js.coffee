@@ -5,6 +5,7 @@ cookbookApp = angular.module('cookbookApp', [
   'ngResource'
   'ngTable'
   'ui.bootstrap'
+  'ui-notification'
 ])
 
 # Resource for cookbook API
@@ -19,12 +20,12 @@ cookbookApp.factory 'Cookbooks', [
 # Main controller
 cookbookApp.controller 'CookbookListController', [
   '$scope'
-  '$log'
   '$filter'
   '$uibModal'
   'NgTableParams'
+  'Notification'
   'Cookbooks'
-  ($scope, $log, $filter, $uibModal, NgTableParams, Cookbooks) ->
+  ($scope, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
     $scope.cookbooks = []
     $scope.cookbook = {}
     # TODO: paginate records with NgTableParams
@@ -59,15 +60,9 @@ cookbookApp.controller 'CookbookListController', [
       $scope.cookbook = $scope.cookbooks[idx]
       $scope.cookbook.$delete ( ->
         $scope.cookbooks = Cookbooks.query()
-        $scope.notification = {
-            type: 'success'
-            msg: 'Delete Successfully'
-          }
+        Notification.success('Record deleted Successfully')
       ), (errorResponse) ->
-        $scope.notification = {
-            type: 'error'
-            msg: errorResponse.data.message
-          }
+        Notification.error(errorResponse.data.message)
         return
 
     $scope.openModal = (modal_type) ->
@@ -84,31 +79,18 @@ cookbookApp.controller 'CookbookListController', [
 
       modalInstance.result.then (cookbook) ->
         if $scope.selected_idx != -1
-          console.log $scope.cookbook
           $scope.cookbook.$update ( ->
             $scope.cookbooks = Cookbooks.query()
-            $scope.notification = {
-                type: 'success'
-                msg: 'Update Successfully'
-              }
+            Notification.success('Record updated Successfully')
           ), (errorResponse) ->
-            $scope.notification = {
-                type: 'error'
-                msg: errorResponse.data.message
-              }
+            Notification.error(errorResponse.data.message)
             return
         else
           $scope.cookbook.$save ((cookbook, req) ->
             $scope.cookbooks = Cookbooks.query()
-            $scope.notification = {
-                type: 'success'
-                msg: 'Created Successfully'
-              }
+            Notification.success('Record created Successfully')
           ), (errorResponse) ->
-            $scope.notification = {
-                type: 'error'
-                msg: errorResponse.data.message
-              }
+            Notification.error(errorResponse.data.message)
             return
         return
       return
@@ -119,7 +101,7 @@ cookbookApp.controller 'CookbookListController', [
 # Modal controller
 angular.module('cookbookApp').
 controller 'CookbookModalInstanceCtrl',
-($scope, $log, $uibModalInstance, cookbook, modal_type) ->
+($scope, $uibModalInstance, cookbook, modal_type) ->
 
   $scope.cookbook = cookbook
   $scope.modal_type = modal_type
