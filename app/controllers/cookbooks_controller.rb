@@ -12,6 +12,7 @@ class CookbooksController < ApplicationController
     @rcd = Cookbook.new(permit_params)
 
     if @rcd.save
+      @rcd.process_tags(params[:tags])
       # TODO: Save record to GSheet with shareable permission
       render json: @rcd, status: :created
     else
