@@ -13,6 +13,10 @@
         %textarea.form-control{placeholder: 'Please enter desc', data: {'ng-model': 'cookbook.desc'}}
 
       .form-group
+        %label Tag
+        %tags-input{data: {'ng-model': 'cookbook.tags'}}
+
+      .form-group
         -# TODO: Implement this like fields_for
         %label
           Materials
