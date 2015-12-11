@@ -13,9 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require angular/angular
+//= require angular
 //= require angular-resource/bower-angular-resource-1.4.8/angular-resource
-//= require ng-table/dist/ng-table
-//= require angular-bootstrap/ui-bootstrap
-//= require angular-bootstrap/ui-bootstrap-tpls
+//= require ng-table
+//= require angular-bootstrap
+//= require angular-bootstrap
 //= require_tree .
