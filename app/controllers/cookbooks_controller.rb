@@ -26,6 +26,7 @@ class CookbooksController < ApplicationController
 
   def update
     if @rcd.update(permit_params)
+      @rcd.process_tags(params[:tags])
       # TODO: Update GDoc content
       render json: @rcd
     else
