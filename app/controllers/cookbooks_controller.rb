@@ -6,6 +6,7 @@ class CookbooksController < ApplicationController
 
   def index
     @rcds = Cookbook.all
+    render json: @rcds
   end
 
   def create
