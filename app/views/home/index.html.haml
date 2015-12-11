@@ -8,10 +8,10 @@
 
   %div{'ng-init': 'popularCookbookList()'}
     %table.table.table-striped.table-condensed{data: {'ng-table': 'tableParams'}}
-      %tr{data: {'ng-repeat': 'cookbook in cookbook_list track by cookbook.id'}}
-        %td{data: {title: '"Name"', sortable: ' "name" '}}{{cookbook.name}}
-        %td{data: {title: '"Desc"', sortable: false}}{{cookbook.desc}}
-        %td{data: {title: '"CreatedAt"', sortable: ' "created_at" '}}{{cookbook.created_at}}
+      %tr{data: {'ng-repeat': 'cookbook in $data track by cookbook.id'}}
+        %td{data: {title: '"Name"'}, sortable: ' "name" '}{{cookbook.name}}
+        %td{data: {title: '"Desc"'}, sortable: false}{{cookbook.desc}}
+        %td{data: {title: '"CreatedAt"'}, sortable: ' "created_at" '}{{cookbook.created_at}}
         %td
           %a.btn.btn-primary.btn-sm{data: {'ng-click': 'edit($index)', 'ng-href': '#'}} Edit
           %a.btn.btn-danger.btn-sm{data: {'ng-click': 'delete($index)', 'ng-href': '#'}} Delete

@@ -4,13 +4,25 @@ angular.module('cookbookApp', ["ngTable", 'ui.bootstrap']).
 controller 'CookbookListController', [
   '$scope'
   '$log'
+  '$filter'
   '$uibModal'
   'NgTableParams'
-  ($scope, $log, $uibModal, NgTableParams) ->
+  ($scope, $log, $filter, $uibModal, NgTableParams) ->
     $scope.cookbook_list = []
     $scope.selected_cookbook = {}
     # TODO: paginate with NgTableParams
-    $scope.tableParams = new NgTableParams({})
+
+    $scope.tableParams = new NgTableParams({
+      count: 1
+      sorting: name: 'desc'
+    },
+      total: $scope.cookbook_list.length
+      getData: ($defer, params) ->
+        $defer.resolve(
+          $filter('orderBy')($scope.cookbook_list, params.orderBy())
+        )
+        return
+    )
 
     $scope.popularCookbookList = ->
       $scope.selected_idx = -1
