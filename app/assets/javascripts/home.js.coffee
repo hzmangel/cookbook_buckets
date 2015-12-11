@@ -60,7 +60,7 @@ cookbookApp.controller 'CookbookListController', [
       $scope.openModal('edit')
 
     $scope.delete = (rcd_id) ->
-      $scope.cookbook = $scope.cookbooks[idx]
+      $scope.cookbook = $filter('filter')($scope.cookbooks, id: rcd_id)[0]
       $scope.cookbook.$delete ( ->
         $scope.cookbooks = Cookbooks.query()
         Notification.success('Record deleted Successfully')
