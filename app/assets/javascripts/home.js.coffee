@@ -107,10 +107,10 @@ controller 'CookbookModalInstanceCtrl',
 ($scope, $uibModalInstance, cookbook, modal_type) ->
 
   $scope.cookbook = cookbook
+  if $scope.cookbook.materials == undefined
+    $scope.cookbook.materials = []
   $scope.modal_type = modal_type
-
-  # console.log cookbook
-  # console.log $scope.cookbook
+  $scope.idx = 0
 
   $scope.ok = ->
     $uibModalInstance.close $scope.cookbook
@@ -119,5 +119,12 @@ controller 'CookbookModalInstanceCtrl',
   $scope.cancel = ->
     $uibModalInstance.dismiss 'cancel'
     return
+
+  $scope.addMaterial = ->
+    $scope.cookbook.materials.push
+      id: $scope.idx
+      name: undefined
+      quantity: undefined
+    $scope.idx += 1
 
   return

@@ -21,7 +21,7 @@
         %label
           Materials
           %button.btn.btn-xs{data: {'ng-click': 'addMaterial()'}} Add
-          .row{data: {'ng-repeat': 'material in cookbook.material_attributes track by material.name'}}
+          .row{data: {'ng-repeat': 'material in cookbook.materials track by material.id'}}
             .col-xs-5
               %input.form-control{type: :text, placeholder: 'Material name', data: {'ng-model': 'material.name'}}
             .col-xs-3
