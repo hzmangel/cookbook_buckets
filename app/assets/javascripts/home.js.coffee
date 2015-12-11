@@ -1,7 +1,13 @@
 'use strict'
 
-angular.module('cookbookApp', ["ngTable", 'ui.bootstrap']).
-controller 'CookbookListController', [
+# Create module
+cookbookApp = angular.module('cookbookApp', [
+  'ngResource'
+  'ngTable'
+  'ui.bootstrap'
+])
+# Main controller
+cookbookApp.controller 'CookbookListController', [
   '$scope'
   '$log'
   '$filter'
