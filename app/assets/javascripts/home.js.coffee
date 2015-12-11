@@ -23,19 +23,20 @@ cookbookApp.controller 'CookbookListController', [
   '$filter'
   '$uibModal'
   'NgTableParams'
-  ($scope, $log, $filter, $uibModal, NgTableParams) ->
-    $scope.cookbook_list = []
-    $scope.selected_cookbook = {}
-    # TODO: paginate with NgTableParams
+  'Cookbooks'
+  ($scope, $log, $filter, $uibModal, NgTableParams, Cookbooks) ->
+    $scope.cookbooks = []
+    $scope.cookbook = {}
+    # TODO: paginate records with NgTableParams
 
     $scope.tableParams = new NgTableParams({
-      count: 1
-      sorting: name: 'desc'
+      sorting:
+        name: 'desc' # Sorting by name.desc by default
     },
-      total: $scope.cookbook_list.length
+      total: $scope.cookbooks.length
       getData: ($defer, params) ->
         $defer.resolve(
-          $filter('orderBy')($scope.cookbook_list, params.orderBy())
+          $filter('orderBy')($scope.cookbooks, params.orderBy())
         )
         return
     )
