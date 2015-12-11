@@ -1,66 +1,74 @@
 'use strict'
 
-angular.module('cookbookApp', ["ngTable", 'ui.bootstrap']).
-controller 'CookbookListController', [
+# Create module
+cookbookApp = angular.module('cookbookApp', [
+  'ngResource'
+  'ngTable'
+  'ui.bootstrap'
+])
+
+# Resource for cookbook API
+cookbookApp.factory 'Cookbooks', [
+  '$resource'
+  ($resource) ->
+    $resource 'cookbooks/:cookbookId', { cookbookId: '@id' },
+      update:
+        method: 'PATCH'
+]
+
+# Main controller
+cookbookApp.controller 'CookbookListController', [
   '$scope'
   '$log'
   '$filter'
   '$uibModal'
   'NgTableParams'
-  ($scope, $log, $filter, $uibModal, NgTableParams) ->
-    $scope.cookbook_list = []
-    $scope.selected_cookbook = {}
-    # TODO: paginate with NgTableParams
+  'Cookbooks'
+  ($scope, $log, $filter, $uibModal, NgTableParams, Cookbooks) ->
+    $scope.cookbooks = []
+    $scope.cookbook = {}
+    # TODO: paginate records with NgTableParams
 
     $scope.tableParams = new NgTableParams({
-      count: 1
-      sorting: name: 'desc'
+      sorting:
+        name: 'desc' # Sorting by name.desc by default
     },
-      total: $scope.cookbook_list.length
+      total: $scope.cookbooks.length
       getData: ($defer, params) ->
         $defer.resolve(
-          $filter('orderBy')($scope.cookbook_list, params.orderBy())
+          $filter('orderBy')($scope.cookbooks, params.orderBy())
         )
         return
     )
 
     $scope.popularCookbookList = ->
+      $scope.cookbooks = Cookbooks.query()
       $scope.selected_idx = -1
-      $scope.cookbook_list = [
-        {
-          id: 1
-          name: "Cookbook_1"
-          desc: "Desc of Cookbook_1"
-        }
-        {
-          id: 2
-          name: "Cookbook_2"
-          desc: "Desc of Cookbook_2"
-        }
-        {
-          id: 3
-          name: "Cookbook_3",
-          desc: "Desc of Cookbook_3",
-          material_attributes: [
-            {name: 'material_1', quantity: '100', unit: 'cm'}
-            {name: 'material_2', quantity: '10', unit: 'kg'}
-          ]
-        }
-      ]
 
     $scope.new = ->
-      $scope.selected_cookbook = {}
+      $scope.cookbook = new Cookbooks({})
       $scope.selected_idx = -1
       $scope.openModal('new')
 
     $scope.edit = (idx) ->
-      $scope.selected_cookbook = angular.copy $scope.cookbook_list[idx]
+      $scope.cookbook = angular.copy $scope.cookbooks[idx]
       $scope.selected_idx = idx
       $scope.openModal('edit')
 
     $scope.delete = (idx) ->
-      # TODO: Call delete API
-      $log.info idx
+      $scope.cookbook = $scope.cookbooks[idx]
+      $scope.cookbook.$delete ( ->
+        $scope.cookbooks = Cookbooks.query()
+        $scope.notification = {
+            type: 'success'
+            msg: 'Delete Successfully'
+          }
+      ), (errorResponse) ->
+        $scope.notification = {
+            type: 'error'
+            msg: errorResponse.data.message
+          }
+        return
 
     $scope.openModal = (modal_type) ->
       modalInstance = $uibModal.open(
@@ -69,23 +77,46 @@ controller 'CookbookListController', [
         controller: 'CookbookModalInstanceCtrl'
         resolve:
           cookbook: ->
-            $scope.selected_cookbook
+            $scope.cookbook
           modal_type: ->
             modal_type
       )
+
       modalInstance.result.then (cookbook) ->
         if $scope.selected_idx != -1
-          # TODO: Call update API
-          $scope.cookbook_list[$scope.selected_idx] = cookbook
+          console.log $scope.cookbook
+          $scope.cookbook.$update ( ->
+            $scope.cookbooks = Cookbooks.query()
+            $scope.notification = {
+                type: 'success'
+                msg: 'Update Successfully'
+              }
+          ), (errorResponse) ->
+            $scope.notification = {
+                type: 'error'
+                msg: errorResponse.data.message
+              }
+            return
         else
-          # TODO: Call create API
-          $scope.cookbook_list.push(cookbook)
+          $scope.cookbook.$save ((cookbook, req) ->
+            $scope.cookbooks = Cookbooks.query()
+            $scope.notification = {
+                type: 'success'
+                msg: 'Created Successfully'
+              }
+          ), (errorResponse) ->
+            $scope.notification = {
+                type: 'error'
+                msg: errorResponse.data.message
+              }
+            return
         return
       return
 
     return
 ]
 
+# Modal controller
 angular.module('cookbookApp').
 controller 'CookbookModalInstanceCtrl',
 ($scope, $log, $uibModalInstance, cookbook, modal_type) ->
