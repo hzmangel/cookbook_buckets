@@ -122,9 +122,19 @@ controller 'CookbookModalInstanceCtrl',
 
   $scope.addMaterial = ->
     $scope.cookbook.materials.push
-      id: $scope.idx
-      name: undefined
-      quantity: undefined
-    $scope.idx += 1
+      id: Date.now()
+    return
+
+  $scope.removeMaterial = (rcd_id) ->
+    $scope.cookbook.materials = $scope.cookbook.materials.filter((element, i) ->
+      if (element.id == rcd_id)
+        element._destroy = true
+      else
+        element
+    )
+    return
+
+  $scope.isShowingMaterial = (rcd) ->
+    rcd._destroy == undefined
 
   return
