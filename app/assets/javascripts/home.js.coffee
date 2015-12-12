@@ -55,8 +55,6 @@ cookbookApp.controller 'CookbookListController', [
     $scope.edit = (rcd_id) ->
       $scope.selected_id = rcd_id
       $scope.cookbook = $filter('filter')($scope.cookbooks, id: $scope.selected_id)[0]
-      console.log rcd_id
-      console.log $scope.cookbook
       $scope.openModal('edit')
 
     $scope.delete = (rcd_id) ->
@@ -110,7 +108,6 @@ controller 'CookbookModalInstanceCtrl',
   if $scope.cookbook.materials == undefined
     $scope.cookbook.materials = []
   $scope.modal_type = modal_type
-  $scope.idx = 0
 
   $scope.ok = ->
     $uibModalInstance.close $scope.cookbook
