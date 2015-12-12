@@ -17,17 +17,19 @@
         %tags-input{data: {'ng-model': 'cookbook.tags'}, 'min-length': 1}
 
       .form-group
-        -# TODO: Implement this like fields_for
         %label
           Materials
           %button.btn.btn-xs{data: {'ng-click': 'addMaterial()'}} Add
-          .row{data: {'ng-repeat': 'material in cookbook.materials track by material.id'}}
-            .col-xs-5
-              %input.form-control{type: :text, placeholder: 'Material name', data: {'ng-model': 'material.name'}}
-            .col-xs-3
-              %input.form-control{type: :text, placeholder: 'Material quantity', data: {'ng-model': 'material.quantity'}}
-            .col-xs-4
-              %input.form-control{type: :text, placeholder: 'Material unit', data: {'ng-model': 'material.unit'}}
+
+        .row{data: {'ng-repeat': 'material in cookbook.materials | filter: isShowingMaterial track by material.id'}}
+          .col-xs-5
+            %input.form-control{type: :text, placeholder: 'Name', data: {'ng-model': 'material.name'}}
+          .col-xs-3
+            %input.form-control{type: :text, placeholder: 'Quantity', data: {'ng-model': 'material.quantity'}}
+          .col-xs-3
+            %input.form-control{type: :text, placeholder: 'Unit', data: {'ng-model': 'material.unit'}}
+          .col-xs-1
+            .form-control-static{data: {'ng-click': 'removeMaterial(material.id)'}} &times;
 
   .modal-footer
     %button.btn.btn-link{type: :button, data: {'ng-click': 'cancel()'}} Cancel
