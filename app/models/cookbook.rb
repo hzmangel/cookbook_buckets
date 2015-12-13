@@ -61,7 +61,7 @@ class Cookbook < ActiveRecord::Base
           end
         else
           # Possible new material record
-          new_material = materials.find_or_initialize_by(material_params)
+          new_material = Material.find_or_initialize_by(material_params)
           material_quantities.create(quantity_params.merge(material: new_material))
           new_material.save
         end

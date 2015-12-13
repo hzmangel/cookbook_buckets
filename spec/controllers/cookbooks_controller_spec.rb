@@ -2,30 +2,30 @@ require 'rails_helper'
 
 RSpec.describe CookbooksController, type: :controller do
   describe '#create' do
+    let(:cookbook_params) do
+      { name: 'Cookbook 1', desc: 'Desc of Cookbook 1' }
+    end
+
+    let(:materials_params) do
+      [
+        { name: 'material_1', quantity: 100, unit: 'g' },
+        { name: 'material_2', quantity: 10, unit: 'cm' }
+      ]
+    end
+
+    let(:tags_params) do
+      [{ text: 'tag_1' }, { text: 'tag_2' }]
+    end
+
+    let(:params) do
+      {
+        cookbook: cookbook_params,
+        materials: materials_params,
+        tags: tags_params
+      }
+    end
+
     context 'when given valid params' do
-      let(:cookbook_params) do
-        { name: 'Cookbook 1', desc: 'Desc of Cookbook 1' }
-      end
-
-      let(:materials_params) do
-        [
-          { name: 'material_1', quantity: 100, unit: 'g' },
-          { name: 'material_2', quantity: 10, unit: 'cm' }
-        ]
-      end
-
-      let(:tags_params) do
-        [{ text: 'tag_1' }, { text: 'tag_2' }]
-      end
-
-      let(:params) do
-        {
-          cookbook: cookbook_params,
-          materials: materials_params,
-          tags: tags_params
-        }
-      end
-
       subject(:response) do
         post :create, params
       end
@@ -34,6 +34,17 @@ RSpec.describe CookbooksController, type: :controller do
       it { expect { subject }.to change(Material, :count).by(2) }
       it { expect { subject }.to change(MaterialQuantity, :count).by(2) }
       it { expect(subject.status).to eq 201 }
+    end
+
+    context 'when given duplicated tag name' do
+      subject(:response) do
+        post :create, params
+        post :create, params
+      end
+
+      it { expect { subject }.to change(Cookbook, :count).by(2) }
+      it { expect { subject }.to change(Material, :count).by(2) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(4) }
     end
   end
 
