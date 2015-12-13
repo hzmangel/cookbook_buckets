@@ -32,6 +32,7 @@ RSpec.describe CookbooksController, type: :controller do
 
       it { expect { subject }.to change(Cookbook, :count).by(1) }
       it { expect { subject }.to change(Material, :count).by(2) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(2) }
       it { expect(subject.status).to eq 201 }
     end
   end
@@ -60,6 +61,30 @@ RSpec.describe CookbooksController, type: :controller do
 
       it { expect { subject }.not_to change(Cookbook, :count) }
       it { expect { subject }.to change(Material, :count).by(1) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(1) }
+      it { expect(subject.status).to eq 200 }
+    end
+
+    context 'when adding materials w/ same name' do
+      let(:materials_params) do
+        JSON.parse(cookbook.materials.to_json)
+          .append(name: 'NewAddedMaterial',
+                  quantity: 20,
+                  unit: 'kg')
+          .append(name: 'NewAddedMaterial',
+                  quantity: 10,
+                  unit: 'kg')
+      end
+      subject(:response) do
+        patch :update, id: cookbook.id,
+                       cookbook: JSON.parse(cookbook.to_json),
+                       tags: JSON.parse(cookbook.tags.to_json),
+                       materials: materials_params
+      end
+
+      it { expect { subject }.not_to change(Cookbook, :count) }
+      it { expect { subject }.to change(Material, :count).by(1) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(2) }
       it { expect(subject.status).to eq 200 }
     end
 
@@ -78,7 +103,8 @@ RSpec.describe CookbooksController, type: :controller do
       end
 
       it { expect { subject }.not_to change(Cookbook, :count) }
-      it { expect { subject }.not_to change(Material, :count) }
+      it { expect { subject }.to change(Material, :count).by(1) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(0) }
       it { expect(subject.status).to eq 200 }
       it { expect { subject }.to change(Material.where(name: 'ChangeMaterialName'), :count).by(1) }
     end
@@ -98,7 +124,8 @@ RSpec.describe CookbooksController, type: :controller do
       end
 
       it { expect { subject }.not_to change(Cookbook, :count) }
-      it { expect { subject }.to change(Material, :count).by(-1) }
+      it { expect { subject }.not_to change(Material, :count) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(-1) }
       it { expect(subject.status).to eq 200 }
     end
   end
@@ -115,7 +142,8 @@ RSpec.describe CookbooksController, type: :controller do
       end
 
       it { expect { subject }.to change(Cookbook, :count).by(-1) }
-      it { expect { subject }.to change(Material, :count).by(-5) }
+      it { expect { subject }.not_to change(Material, :count) }
+      it { expect { subject }.to change(MaterialQuantity, :count).by(-5) }
       it { expect(subject.status).to eq 204 }
     end
   end
