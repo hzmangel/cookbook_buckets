@@ -3,7 +3,8 @@ class Cookbook < ActiveRecord::Base
   has_many :materials, dependent: :destroy
   has_and_belongs_to_many :tags
 
-  accepts_nested_attributes_for :materials, allow_destroy: true
+  has_many :material_quantities
+  has_many :materials, through: :material_quantities
   accepts_nested_attributes_for :tags
 
   validates :name, presence: true
@@ -39,22 +40,34 @@ class Cookbook < ActiveRecord::Base
         destroy_ids << r[:id]
       else
         material_params = {
-          name: r[:name],
+          name: r[:name]
+        }
+
+        quantity_params = {
           quantity: r[:quantity],
           unit: r[:unit]
         }
 
         # Change id to integer to match MySQL
         if material_ids.include?(r[:id].to_i)
-          # Existing record
-          materials.find(r[:id]).update(material_params)
+          # Existing id, but may need new record
+          material = materials.find(r[:id])
+          if material.name != r[:name]
+            new_material = materials.find_or_initialize_by(material_params)
+            material_quantities.find_by(material_id: r[:id]).update(material_id: new_material.id)
+            new_material.save
+          else
+            material_quantities.find_by(material_id: r[:id]).update(quantity_params)
+          end
         else
-          # New material record
-          materials.create(material_params)
+          # Possible new material record
+          new_material = materials.find_or_initialize_by(material_params)
+          material_quantities.create(quantity_params.merge(material: new_material))
+          new_material.save
         end
       end
     end
 
-    materials.where(id: destroy_ids).destroy_all if destroy_ids.present?
+    material_quantities.where(material_id: destroy_ids).destroy_all if destroy_ids.present?
   end
 end

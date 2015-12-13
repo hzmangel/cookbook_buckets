@@ -1,8 +1,7 @@
-# Material, save materials used in cookbook
+# Material, save materials name used in cookbook
 class Material < ActiveRecord::Base
-  belongs_to :cookbook
+  has_many :material_quantities
+  has_many :cookbooks, through: :material_quantities
 
   validates :name, presence: true
-  validates :quantity, numericality: { only_integer: true, greater_than: 0 }
-  validates :unit, presence: true
 end
