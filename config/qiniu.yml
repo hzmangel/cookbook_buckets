@@ -1,0 +1,14 @@
+default: &default
+  :accessKey: 'D0P4hJxcqxblo5aOqFTx08PeiBaWoc9mSV3KNUtM'
+  :appSecret: 'qRHOXsIrC6GR3YxbSZj8H8iHcbuP34MbFRhNurhW'
+  :cdn: 'http://7xitul.com1.z0.glb.clouddn.com '
+  :bucketName: 'testz1001'
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

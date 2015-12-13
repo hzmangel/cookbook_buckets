@@ -16,6 +16,8 @@
     %div{'ng-if' => 'cookbooks.length > 0'}
       %table.table.table-striped.table-condensed{:data => {'ng-table' => 'tableParams'}}
         %tr{:data => {'ng-repeat' => 'cookbook in $data track by cookbook.id'}}
+          %td.text-center{:data => {:title => '"Image"'}, :sortable => false}
+            %img{:data => {'ng-src' => '{{cookbook.image}}'}, :width => 64}
           %td{:data => {:title => '"Name"'}, :sortable => ' "name" '}{{cookbook.name}}
           %td{:data => {:title => '"Desc"'}, :sortable => false}{{cookbook.desc}}
           %td.text-center{:data => {:title => '"CreatedAt"'}, :sortable => ' "created_at" '}{{cookbook.created_at}}
