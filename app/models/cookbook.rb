@@ -70,4 +70,30 @@ class Cookbook < ActiveRecord::Base
 
     material_quantities.where(material_id: destroy_ids).destroy_all if destroy_ids.present?
   end
+
+  def google_drive
+    @drive ||= auth_google_drive
+  end
+
+  def auth_google_drive
+    ENV['GOOGLE_APPLICATION_CREDENTIALS'] = Rails.root.join('config', 'credential.json').to_s
+    @drive = Google::Apis::DriveV2::DriveService.new
+    @drive.authorization = Google::Auth.get_application_default([Drive::AUTH_DRIVE])
+    @drive
+  end
+
+  def sync_gsheet
+    if gdoc_id.nil?
+      # Create new sheet
+      file = google_drive.insert_file(
+        {
+          title: "Cookbook-#{Time.now.strftime('%Y%m%d-%H%M%S')}"
+        }, upload_source: __FILE__)
+      puts "Created file #{file.title} (#{file.id})"
+      update(gdoc_id: file.id)
+    else
+      # TODO: Update existing sheet
+      puts "Created file #{file.title} (#{file.id})"
+    end
+  end
 end
