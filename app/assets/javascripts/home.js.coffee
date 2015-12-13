@@ -105,19 +105,22 @@ cookbookApp.controller 'CookbookListController', [
   ($scope, $http, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
     $scope.cookbooks = []
     $scope.cookbook = {}
-    # TODO: paginate records with NgTableParams
 
-    $scope.tableParams = new NgTableParams({
+    initialParams =
+      count: 5
       sorting:
-        name: 'desc' # Sorting by name.desc by default
-    },
+        name: 'asc'
+    initialSettings =
+      paginationMaxBlocks: 13
+      paginationMinBlocks: 2
       total: $scope.cookbooks.length
       getData: ($defer, params) ->
         $defer.resolve(
-          $filter('orderBy')($scope.cookbooks, params.orderBy())
+          $filter('orderBy')($scope.cookbooks, params.orderBy()).slice((params.page() - 1) * params.count(), params.page() * params.count())
+          params.total($scope.cookbooks.length)
         )
         return
-    )
+    $scope.tableParams = new NgTableParams(initialParams, initialSettings)
 
     $scope.popularCookbookList = ->
       $scope.cookbooks = Cookbooks.query()
