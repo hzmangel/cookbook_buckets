@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap/dist/js
+//= require bootstrap/dist/js/bootstrap.min
 //= require angular
 //= require angular-resource/bower-angular-resource-1.4.8/angular-resource
 //= require ng-table
