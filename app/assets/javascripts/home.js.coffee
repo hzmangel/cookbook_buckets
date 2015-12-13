@@ -16,6 +16,11 @@ cookbookApp.factory 'Cookbooks', [
     $resource 'cookbooks/:cookbookId', { cookbookId: '@id' },
       update:
         method: 'PATCH'
+      search:
+        method: 'POST'
+        params: {searchParams: '@searchParams'}
+        url: '/cookbooks/search?:searchParams'
+        isArray: true
 ]
 
 # Directives for checkbox group
@@ -55,12 +60,13 @@ cookbookApp.directive 'checkList', ->
 # Main controller
 cookbookApp.controller 'CookbookListController', [
   '$scope'
+  '$http'
   '$filter'
   '$uibModal'
   'NgTableParams'
   'Notification'
   'Cookbooks'
-  ($scope, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
+  ($scope, $http, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
     $scope.cookbooks = []
     $scope.cookbook = {}
     # TODO: paginate records with NgTableParams
@@ -130,6 +136,37 @@ cookbookApp.controller 'CookbookListController', [
         return
       return
 
+
+    # Search related
+    $scope.search = ->
+      $http(
+        method: 'GET'
+        url: '/materials.json').then ((response) ->
+          $scope.openSearchModal(response.data)
+          return
+      ), (response) ->
+        console.error response
+        return
+
+
+    $scope.openSearchModal = (materials) ->
+      modalInstance = $uibModal.open(
+        animation: true
+        size: 'lg',
+        templateUrl: 'cookbookSearch.html'
+        controller: 'CookbookSearchModalInstanceCtrl'
+        resolve:
+          materials: ->
+            materials
+      )
+
+      modalInstance.result.then (search_params) ->
+        console.log search_params
+        $scope.cookbooks = Cookbooks.search(searchParams: search_params)
+        $scope.tableParams.reload()
+        Notification.success('Search result returned')
+      return
+
     return
 ]
 
@@ -167,5 +204,25 @@ controller 'CookbookModalInstanceCtrl',
 
   $scope.isShowingMaterial = (rcd) ->
     rcd._destroy == undefined
+
+  return
+
+# Search modal
+angular.module('cookbookApp').
+controller 'CookbookSearchModalInstanceCtrl',
+($scope, $uibModalInstance, materials) ->
+
+  $scope.materials = materials
+
+  $scope.search_params = {}
+  $scope.search_params.selected_materials = []
+
+  $scope.search = ->
+    $uibModalInstance.close $scope.search_params
+    return
+
+  $scope.cancel = ->
+    $uibModalInstance.dismiss 'cancel'
+    return
 
   return
