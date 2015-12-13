@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'haml-rails', '~> 0.9'
 gem 'bower-rails', '~> 0.10.0'
+gem 'google-api-client', '0.9.pre3'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
