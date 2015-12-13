@@ -1,10 +1,12 @@
 = render partial: 'cookbooks/form'
+= render partial: 'cookbooks/search'
 
 .container{data: {'ng-controller': 'CookbookListController'}}
   %h2.page-header
     Cookbooks
     .pull-right
       %a.btn.btn-success.btn-sm{data: {'ng-click': 'new()', 'ng-href': '#'}} New
+      %a.btn.btn-info.btn-sm{data: {'ng-click': 'search()', 'ng-href': '#'}} Search
 
   %div{'ng-init': 'popularCookbookList()'}
     %div{'ng-if': 'cookbooks.length <= 0'}

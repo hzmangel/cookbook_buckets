@@ -46,6 +46,30 @@ class CookbooksController < ApplicationController
     end
   end
 
+  def search
+    rcd_ids = Cookbook.all.map(&:id)
+    if params[:searchParams].present?
+      search_params = params[:searchParams]
+
+      # TODO: Use `send` and loop to remove duplicated code
+      rcd_ids &= search_material_ids(search_params[:selected_materials]) \
+                 if search_params[:selected_materials].present?
+
+      rcd_ids &= search_tag_name(search_params[:tag_name]) \
+                 if search_params[:tag_name].present?
+
+      rcd_ids &= search_cookbook_name(search_params[:cookbook_name]) \
+                 if search_params[:cookbook_name].present?
+
+      rcd_ids &= search_cookbook_desc(search_params[:cookbook_desc]) \
+                 if search_params[:cookbook_desc].present?
+
+    end
+
+    @rcds = Cookbook.find(rcd_ids)
+    render :index
+  end
+
   private
 
   def prepare_rcd
@@ -75,5 +99,21 @@ class CookbooksController < ApplicationController
       { materials_attributes: [:id, :name, :quantity, :unit, :_destroy] },
       { tags_attributes: [:id, :name] }
     ])
+  end
+
+  def search_material_ids(ids)
+    Material.where(id: ids).map(&:cookbook_ids).flatten.uniq
+  end
+
+  def search_tag_name(name)
+    Tag.where(name: name).map(&:cookbook_ids).flatten.uniq
+  end
+
+  def search_cookbook_desc(desc)
+    Cookbook.where('name ILIKE ?', "%#{desc}%").map(&:id)
+  end
+
+  def search_cookbook_name(name)
+    Cookbook.where('name ILIKE ?', "%#{name}%").map(&:id)
   end
 end

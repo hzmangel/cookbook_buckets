@@ -16,17 +16,57 @@ cookbookApp.factory 'Cookbooks', [
     $resource 'cookbooks/:cookbookId', { cookbookId: '@id' },
       update:
         method: 'PATCH'
+      search:
+        method: 'POST'
+        params: {searchParams: '@searchParams'}
+        url: '/cookbooks/search?:searchParams'
+        isArray: true
 ]
+
+# Directives for checkbox group
+cookbookApp.directive 'checkList', ->
+  {
+    scope:
+      list: '=checkList'
+      value: '@'
+    link: (scope, elem, attrs) ->
+
+      handler = (setup) ->
+        checked = elem.prop('checked')
+        index = scope.list.indexOf(scope.value)
+        if checked and index == -1
+          if setup
+            elem.prop 'checked', false
+          else
+            scope.list.push scope.value
+        else if !checked and index != -1
+          if setup
+            elem.prop 'checked', true
+          else
+            scope.list.splice index, 1
+        return
+
+      setupHandler = handler.bind(null, true)
+      changeHandler = handler.bind(null, false)
+      elem.bind 'change', ->
+        scope.$apply changeHandler
+        return
+      scope.$watch 'list', setupHandler, true
+      return
+
+  }
+
 
 # Main controller
 cookbookApp.controller 'CookbookListController', [
   '$scope'
+  '$http'
   '$filter'
   '$uibModal'
   'NgTableParams'
   'Notification'
   'Cookbooks'
-  ($scope, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
+  ($scope, $http, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
     $scope.cookbooks = []
     $scope.cookbook = {}
     # TODO: paginate records with NgTableParams
@@ -50,12 +90,12 @@ cookbookApp.controller 'CookbookListController', [
     $scope.new = ->
       $scope.selected_id = 0
       $scope.cookbook = new Cookbooks({})
-      $scope.openModal('new')
+      $scope.openRecordModal('new')
 
     $scope.edit = (rcd_id) ->
       $scope.selected_id = rcd_id
       $scope.cookbook = $filter('filter')($scope.cookbooks, id: $scope.selected_id)[0]
-      $scope.openModal('edit')
+      $scope.openRecordModal('edit')
 
     $scope.delete = (rcd_id) ->
       $scope.cookbook = $filter('filter')($scope.cookbooks, id: rcd_id)[0]
@@ -66,9 +106,10 @@ cookbookApp.controller 'CookbookListController', [
         Notification.error(errorResponse.data.message)
         return
 
-    $scope.openModal = (modal_type) ->
+    $scope.openRecordModal = (modal_type) ->
       modalInstance = $uibModal.open(
         animation: true
+        size: 'lg',
         templateUrl: 'cookbookForm.html'
         controller: 'CookbookModalInstanceCtrl'
         resolve:
@@ -94,6 +135,37 @@ cookbookApp.controller 'CookbookListController', [
             Notification.error(errorResponse.data.message)
             return
         return
+      return
+
+
+    # Search related
+    $scope.search = ->
+      $http(
+        method: 'GET'
+        url: '/materials.json').then ((response) ->
+          $scope.openSearchModal(response.data)
+          return
+      ), (response) ->
+        console.error response
+        return
+
+
+    $scope.openSearchModal = (materials) ->
+      modalInstance = $uibModal.open(
+        animation: true
+        size: 'lg',
+        templateUrl: 'cookbookSearch.html'
+        controller: 'CookbookSearchModalInstanceCtrl'
+        resolve:
+          materials: ->
+            materials
+      )
+
+      modalInstance.result.then (search_params) ->
+        console.log search_params
+        $scope.cookbooks = Cookbooks.search(searchParams: search_params)
+        $scope.tableParams.reload()
+        Notification.success('Search result returned')
       return
 
     return
@@ -133,5 +205,25 @@ controller 'CookbookModalInstanceCtrl',
 
   $scope.isShowingMaterial = (rcd) ->
     rcd._destroy == undefined
+
+  return
+
+# Search modal
+angular.module('cookbookApp').
+controller 'CookbookSearchModalInstanceCtrl',
+($scope, $uibModalInstance, materials) ->
+
+  $scope.materials = materials
+
+  $scope.search_params = {}
+  $scope.search_params.selected_materials = []
+
+  $scope.search = ->
+    $uibModalInstance.close $scope.search_params
+    return
+
+  $scope.cancel = ->
+    $uibModalInstance.dismiss 'cancel'
+    return
 
   return

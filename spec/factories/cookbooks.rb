@@ -8,7 +8,10 @@ FactoryGirl.define do
     end
 
     after(:create) do |cookbook, evaluator|
-      create_list(:material, evaluator.materials_count, cookbook: cookbook)
+      evaluator.materials_count.times do
+        material = FactoryGirl.create(:material)
+        FactoryGirl.create(:material_quantities, cookbook: cookbook, material: material)
+      end
     end
   end
 end
