@@ -1,3 +1,6 @@
+require 'googleauth'
+require 'google/apis/drive_v2'
+
 # Cookbook: saves cookbook data, and associate with Material and Tag
 class Cookbook < ActiveRecord::Base
   has_many :materials, dependent: :destroy
@@ -77,8 +80,8 @@ class Cookbook < ActiveRecord::Base
 
   def auth_google_drive
     ENV['GOOGLE_APPLICATION_CREDENTIALS'] = Rails.root.join('config', 'credential.json').to_s
-    @drive = Google::Apis::DriveV2::DriveService.new
-    @drive.authorization = Google::Auth.get_application_default([Drive::AUTH_DRIVE])
+    @drive = ::Google::Apis::DriveV2::DriveService.new
+    @drive.authorization = Google::Auth.get_application_default([::Google::Apis::DriveV2::AUTH_DRIVE])
     @drive
   end
 
