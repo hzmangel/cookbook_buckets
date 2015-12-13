@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208133154) do
+ActiveRecord::Schema.define(version: 20151213115531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20151208133154) do
     t.string   "gdoc_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "gdoc_id"
   end
 
   add_index "cookbooks", ["name"], name: "index_cookbooks_on_name", using: :btree
