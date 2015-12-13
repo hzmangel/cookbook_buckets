@@ -53,8 +53,44 @@ cookbookApp.directive 'checkList', ->
         return
       scope.$watch 'list', setupHandler, true
       return
-
   }
+
+# Directives for file uploader to Qiniu
+cookbookApp.directive 'fileModel', [
+  '$parse'
+  '$rootScope'
+  '$http'
+  ($parse, $rootScope, $http) ->
+    {
+      restrict: 'A'
+      link: (scope, elem, attrs) ->
+        model = $parse(attrs.fileModel)
+        modelSetter = model.assign
+        elem.bind 'change', (e) ->
+          # var product_key = '/products/' + attrs.ngProductId;
+          img_file = e.target.files[0]
+          if img_file == undefined
+            return false
+          scope.imageUploaded = false
+          $http.get('/upload_token').then (resp) ->
+            form = new FormData
+            form.append 'token', resp.data.token
+            form.append 'file', img_file
+            # form.append("key", product_key);
+
+            console.log form
+
+            $rootScope.loading = true
+            $http.post('http://up.qiniu.com', form, headers: 'Content-Type': undefined).success (data) ->
+              $rootScope.loading = false
+              scope.imageUploaded = true
+              scope.cookbook.image = 'http://7xitul.com1.z0.glb.clouddn.com/' + data.key
+              return
+            return
+          return
+        return
+    }
+]
 
 
 # Main controller
