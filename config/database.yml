@@ -6,7 +6,6 @@ default: &default
 development:
   <<: *default
   database: cookbook_dev
-  user: vagrant
 
 test:
   <<: *default
