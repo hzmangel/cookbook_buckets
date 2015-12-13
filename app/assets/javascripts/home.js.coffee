@@ -90,12 +90,12 @@ cookbookApp.controller 'CookbookListController', [
     $scope.new = ->
       $scope.selected_id = 0
       $scope.cookbook = new Cookbooks({})
-      $scope.openModal('new')
+      $scope.openRecordModal('new')
 
     $scope.edit = (rcd_id) ->
       $scope.selected_id = rcd_id
       $scope.cookbook = $filter('filter')($scope.cookbooks, id: $scope.selected_id)[0]
-      $scope.openModal('edit')
+      $scope.openRecordModal('edit')
 
     $scope.delete = (rcd_id) ->
       $scope.cookbook = $filter('filter')($scope.cookbooks, id: rcd_id)[0]
@@ -106,9 +106,10 @@ cookbookApp.controller 'CookbookListController', [
         Notification.error(errorResponse.data.message)
         return
 
-    $scope.openModal = (modal_type) ->
+    $scope.openRecordModal = (modal_type) ->
       modalInstance = $uibModal.open(
         animation: true
+        size: 'lg',
         templateUrl: 'cookbookForm.html'
         controller: 'CookbookModalInstanceCtrl'
         resolve:
