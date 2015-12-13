@@ -9,6 +9,7 @@ class CreateCookbooks < ActiveRecord::Migration
       t.timestamps
 
       t.index :name
+      t.index :desc
     end
   end
 end
