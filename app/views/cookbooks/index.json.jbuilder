@@ -5,7 +5,9 @@ json.array! @rcds do |r|
     json.text tag_r.name
   end
 
-  json.materials r.materials.each do |mat_r|
-    json.call(mat_r, :id, :name, :quantity, :unit)
+  json.materials r.material_quantities.each do |mat_r|
+    json.id mat_r.material_id
+    json.name mat_r.material.name
+    json.call(mat_r, :quantity, :unit)
   end
 end
