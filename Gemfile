@@ -14,6 +14,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml-rails', '~> 0.9'
 gem 'bower-rails', '~> 0.10.0'
 gem 'google-api-client', '0.9.pre3'
+gem 'qiniu', '~> 6.2.1'
 
 gem 'rails_12factor', group: :production
 gem 'puma'
