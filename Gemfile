@@ -24,4 +24,5 @@ group :development, :test do
   gem 'pry-rails'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
+  gem 'awesome_print'
 end
