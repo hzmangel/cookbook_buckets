@@ -1,29 +1,29 @@
-%script{type: 'text/ng-template', id: 'cookbookSearch.html'}
+%script{:type => 'text/ng-template', :id => 'cookbookSearch.html'}
   .modal-header
     %h3.modal-title Search
   .modal-body
     %form
       .form-group
         %label Cookbook name
-        %input.form-control{type: :text, placeholder: 'Please enter cookbook name', data: {'ng-model': 'search_params.cookbook_name'}}
+        %input.form-control{:type => :text, :placeholder => 'Please enter cookbook name', :data => {'ng-model' => 'search_params.cookbook_name'}}
 
       .form-group
         %label Cookbook description
-        %input.form-control{type: :text, placeholder: 'Please enter cookbook description', data: {'ng-model': 'search_params.cookbook_desc'}}
+        %input.form-control{:type => :text, :placeholder => 'Please enter cookbook description', :data => {'ng-model' => 'search_params.cookbook_desc'}}
 
       .form-group
         %label Tag name
-        %input.form-control{type: :text, placeholder: 'Please enter cookbook name', data: {'ng-model': 'search_params.tag_name'}}
+        %input.form-control{:type => :text, :placeholder => 'Please enter cookbook name', :data => {'ng-model' => 'search_params.tag_name'}}
 
       .form-group
         %label Materials
         {{checked_materials}}
         .row
-          .col-sm-3{data: {'ng-repeat': 'material in materials track by material.id'}}
+          .col-sm-3{:data => {'ng-repeat' => 'material in materials track by material.id'}}
             %labe.checkbox-inline
-              %input{type: :checkbox, value: '{{material.id}}', 'check-list': 'search_params.selected_materials' }
+              %input{:type => :checkbox, :value => '{{material.id}}', 'check-list' => 'search_params.selected_materials' }
               {{material.name}}
 
   .modal-footer
-    %button.btn.btn-link{type: :button, data: {'ng-click': 'cancel()'}} Cancel
-    %button.btn.btn-primary{type: :button, data: {'ng-click': 'search()'}} Search
+    %button.btn.btn-link{:type => :button, :data => {'ng-click' => 'cancel()'}} Cancel
+    %button.btn.btn-primary{:type => :button, :data => {'ng-click' => 'search()'}} Search
