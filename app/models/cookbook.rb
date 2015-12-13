@@ -80,8 +80,8 @@ class Cookbook < ActiveRecord::Base
 
   def auth_google_drive
     ENV['GOOGLE_APPLICATION_CREDENTIALS'] = Rails.root.join('config', 'credential.json').to_s
-    @drive = ::Google::Apis::DriveV2::DriveService.new
-    @drive.authorization = Google::Auth.get_application_default([::Google::Apis::DriveV2::AUTH_DRIVE])
+    @drive = Google::Apis::DriveV2::DriveService.new
+    @drive.authorization = Google::Auth.get_application_default([Google::Apis::DriveV2::AUTH_DRIVE])
     @drive
   end
 
