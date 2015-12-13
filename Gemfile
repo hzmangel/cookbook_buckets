@@ -15,9 +15,7 @@ gem 'haml-rails', '~> 0.9'
 gem 'bower-rails', '~> 0.10.0'
 
 gem 'rails_12factor', group: :production
-
-# Use Unicorn as the app server
-# gem 'unicorn'
+gem 'puma'
 
 group :development, :test do
   gem 'byebug'

@@ -1,24 +1,24 @@
 = render partial: 'cookbooks/form'
 = render partial: 'cookbooks/search'
 
-.container{data: {'ng-controller': 'CookbookListController'}}
+.container{:data => {'ng-controller' => 'CookbookListController'}}
   %h2.page-header
     Cookbooks
     .pull-right
-      %a.btn.btn-success.btn-sm{data: {'ng-click': 'new()', 'ng-href': '#'}} New
-      %a.btn.btn-info.btn-sm{data: {'ng-click': 'search()', 'ng-href': '#'}} Search
+      %a.btn.btn-success.btn-sm{:data => {'ng-click' => 'new()', 'ng-href' => '#'}} New
+      %a.btn.btn-info.btn-sm{:data => {'ng-click' => 'search()', 'ng-href' => '#'}} Search
 
-  %div{'ng-init': 'popularCookbookList()'}
-    %div{'ng-if': 'cookbooks.length <= 0'}
+  %div{'ng-init' => 'popularCookbookList()'}
+    %div{'ng-if' => 'cookbooks.length <= 0'}
       .text-center
         %h3.text-muted No Data
 
-    %div{'ng-if': 'cookbooks.length > 0'}
-      %table.table.table-striped.table-condensed{data: {'ng-table': 'tableParams'}}
-        %tr{data: {'ng-repeat': 'cookbook in $data track by cookbook.id'}}
-          %td{data: {title: '"Name"'}, sortable: ' "name" '}{{cookbook.name}}
-          %td{data: {title: '"Desc"'}, sortable: false}{{cookbook.desc}}
-          %td.text-center{data: {title: '"CreatedAt"'}, sortable: ' "created_at" '}{{cookbook.created_at}}
+    %div{'ng-if' => 'cookbooks.length > 0'}
+      %table.table.table-striped.table-condensed{:data => {'ng-table' => 'tableParams'}}
+        %tr{:data => {'ng-repeat' => 'cookbook in $data track by cookbook.id'}}
+          %td{:data => {:title => '"Name"'}, :sortable => ' "name" '}{{cookbook.name}}
+          %td{:data => {:title => '"Desc"'}, :sortable => false}{{cookbook.desc}}
+          %td.text-center{:data => {:title => '"CreatedAt"'}, :sortable => ' "created_at" '}{{cookbook.created_at}}
           %td.col-md-2
-            %a.btn.btn-primary.btn-sm{data: {'ng-click': 'edit(cookbook.id)', 'ng-href': '#'}} Edit
-            %a.btn.btn-danger.btn-sm{data: {'ng-click': 'delete(cookbook.id)', 'ng-href': '#'}} Delete
+            %a.btn.btn-primary.btn-sm{:data => {'ng-click' => 'edit(cookbook.id)', 'ng-href' => '#'}} Edit
+            %a.btn.btn-danger.btn-sm{:data => {'ng-click' => 'delete(cookbook.id)', 'ng-href' => '#'}} Delete
