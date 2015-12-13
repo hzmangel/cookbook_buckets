@@ -107,7 +107,7 @@ cookbookApp.controller 'CookbookListController', [
     $scope.cookbook = {}
 
     initialParams =
-      count: 5
+      count: 10
       sorting:
         name: 'asc'
     initialSettings =
