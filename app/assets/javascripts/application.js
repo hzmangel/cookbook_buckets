@@ -12,11 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+//= require bootstrap/dist/js/bootstrap.min
 //= require angular
-//= require angular-resource/bower-angular-resource-1.4.8/angular-resource
+//= require angular-resource
 //= require ng-table
-//= require angular-bootstrap
 //= require angular-bootstrap
 //= require angular-ui-notification
 //= require ng-tags-input

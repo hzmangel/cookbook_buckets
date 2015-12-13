@@ -1,5 +1,5 @@
-# source 'https://rubygems.org'
-source 'https://ruby.taobao.org'
+source 'https://rubygems.org'
+# source 'https://ruby.taobao.org'
 
 gem 'rails', '4.2.3'
 gem 'pg'
@@ -15,8 +15,8 @@ gem 'haml-rails', '~> 0.9'
 gem 'bower-rails', '~> 0.10.0'
 gem 'google-api-client', '0.9.pre3'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+gem 'rails_12factor', group: :production
+gem 'puma'
 
 group :development, :test do
   gem 'byebug'

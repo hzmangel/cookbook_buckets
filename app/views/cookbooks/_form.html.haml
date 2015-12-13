@@ -1,36 +1,36 @@
-%script{type: 'text/ng-template', id: 'cookbookForm.html'}
+%script{:type => 'text/ng-template', :id => 'cookbookForm.html'}
   .modal-header
-    %h3.modal-title{'ng-if': 'modal_type === "new"'} Create cookbook
-    %h3.modal-title{'ng-if': 'modal_type === "edit"'} Edit cookbook
+    %h3.modal-title{'ng-if' => 'modal_type === "new"'} Create cookbook
+    %h3.modal-title{'ng-if' => 'modal_type === "edit"'} Edit cookbook
   .modal-body
     %form
       .form-group
         %label Name
-        %input.form-control{type: :text, placeholder: 'Please enter name', data: {'ng-model': 'cookbook.name'}}
+        %input.form-control{:type => :text, :placeholder => 'Please enter name', :data => {'ng-model' => 'cookbook.name'}}
 
       .form-group
         %label Desc
-        %textarea.form-control{placeholder: 'Please enter desc', data: {'ng-model': 'cookbook.desc'}}
+        %textarea.form-control{:placeholder => 'Please enter desc', :data => {'ng-model' => 'cookbook.desc'}}
 
       .form-group
         %label Tag
-        %tags-input{data: {'ng-model': 'cookbook.tags'}, 'min-length': 1}
+        %tags-input{:data => {'ng-model' => 'cookbook.tags'}, 'min-length' => 1}
 
       .form-group
         %label
           Materials
-          %button.btn.btn-xs{data: {'ng-click': 'addMaterial()'}} Add
+          %button.btn.btn-xs{:data => {'ng-click' => 'addMaterial()'}} Add
 
-        .row{data: {'ng-repeat': 'material in cookbook.materials | filter: isShowingMaterial track by material.id'}}
+        .row{:data => {'ng-repeat' => 'material in cookbook.materials | filter: isShowingMaterial track by material.id'}}
           .col-xs-5
-            %input.form-control{type: :text, placeholder: 'Name', data: {'ng-model': 'material.name'}}
+            %input.form-control{:type => :text, :placeholder => 'Name', :data => {'ng-model' => 'material.name'}}
           .col-xs-3
-            %input.form-control{type: :text, placeholder: 'Quantity', data: {'ng-model': 'material.quantity'}}
+            %input.form-control{:type => :text, :placeholder => 'Quantity', :data => {'ng-model' => 'material.quantity'}}
           .col-xs-3
-            %input.form-control{type: :text, placeholder: 'Unit', data: {'ng-model': 'material.unit'}}
+            %input.form-control{:type => :text, :placeholder => 'Unit', :data => {'ng-model' => 'material.unit'}}
           .col-xs-1
-            .form-control-static{data: {'ng-click': 'removeMaterial(material.id)'}} &times;
+            .form-control-static{:data => {'ng-click' => 'removeMaterial(material.id)'}} &times;
 
   .modal-footer
-    %button.btn.btn-link{type: :button, data: {'ng-click': 'cancel()'}} Cancel
-    %button.btn.btn-primary{type: :button, data: {'ng-click': 'ok()'}} OK
+    %button.btn.btn-link{:type => :button, :data => {'ng-click' => 'cancel()'}} Cancel
+    %button.btn.btn-primary{:type => :button, :data => {'ng-click' => 'ok()'}} OK
