@@ -98,7 +98,7 @@ class CookbooksController < ApplicationController
   end
 
   def search_material_ids(ids)
-    Material.where(id: ids).map(&:cookbook_id).flatten.uniq
+    Material.where(id: ids).map(&:cookbook_ids).flatten.uniq
   end
 
   def search_tag_name(name)
