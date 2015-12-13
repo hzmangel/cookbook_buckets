@@ -1,0 +1,13 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "bootstrap": "latest",
+    "angular": "latest",
+    "angular-animate": "latest",
+    "angular-resource": "latest",
+    "ng-table": "latest",
+    "angular-bootstrap": "latest",
+    "angular-ui-notification": "latest",
+    "ng-tags-input": "latest"
+  }
+}
