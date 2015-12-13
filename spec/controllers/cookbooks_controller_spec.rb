@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CookbooksController, type: :controller do
+  before :each do
+    request.env['HTTP_ACCEPT'] = 'application/json'
+  end
+
   describe '#create' do
     let(:cookbook_params) do
       { name: 'Cookbook 1', desc: 'Desc of Cookbook 1' }
@@ -156,6 +160,55 @@ RSpec.describe CookbooksController, type: :controller do
       it { expect { subject }.not_to change(Material, :count) }
       it { expect { subject }.to change(MaterialQuantity, :count).by(-5) }
       it { expect(subject.status).to eq 204 }
+    end
+  end
+
+  describe '#search' do
+    let(:cookbooks) { FactoryGirl.create_list(:cookbook, 5) }
+    let(:tags) { FactoryGirl.create_list(:tag, 5) }
+
+    before(:each) do
+      cookbooks[0].update(tags: tags[0..1])
+      cookbooks[1].update(tags: tags[1..2])
+      cookbooks[2].update(tags: tags[2..3])
+      cookbooks[3].update(tags: tags[3..4])
+      cookbooks[4].update(tags: tags[0..5])
+    end
+
+    context 'when given cookbook name' do
+      let(:q) do
+        { cookbook_name: cookbooks[0].name }
+      end
+
+      subject(:response) do
+        post :search, searchParams: q
+      end
+
+      it { expect(subject.status).to eq 200 }
+
+      it 'only returns cookbook 1' do
+        subject
+        expect(assigns(:rcds).count).to eq 1
+        expect(assigns(:rcds).first.name).to eq 'Cookbook_1'
+      end
+    end
+
+    context 'when given tag name' do
+      let(:q) do
+        { tag_name: tags.first.name }
+      end
+
+      subject(:response) do
+        post :search, searchParams: q
+      end
+
+      it { expect(subject.status).to eq 200 }
+
+      it 'returns cookbook 1 and 4' do
+        subject
+        expect(assigns(:rcds).count).to eq 2
+        expect(assigns(:rcds).map(&:name)).to eq [cookbooks[0].name, cookbooks[4].name]
+      end
     end
   end
 end
