@@ -212,6 +212,7 @@ angular.module('cookbookApp').
 controller 'CookbookModalInstanceCtrl',
 ($scope, $uibModalInstance, cookbook, modal_type) ->
 
+  $scope.imageUploaded = true
   $scope.cookbook = cookbook
   if $scope.cookbook.materials == undefined
     $scope.cookbook.materials = []
