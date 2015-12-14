@@ -1,0 +1,35 @@
+%script{:type => 'text/ng-template', :id => 'cookbookShow.html'}
+  .modal-header
+    %h3.modal-title {{cookbook.name}}
+  .modal-body
+    .row{:data => {'ng-hide' => '{{cookbook.image == undefined}}'}}
+      .col-md-4
+        %img.img-responsive{:data => { 'ng-src' => '{{cookbook.image}}' }, :alt => 'Cookbook_{{cookbook.id}}'}
+
+    %br
+    %blockquote
+      %p {{cookbook.desc}}
+
+    %div
+      %span{:data => {'ng-repeat': 'tag in cookbook.tags track by tag.text'}}
+        .label.label-primary {{tag.text}}
+        &nbsp;
+
+    %h4.page-header Materials
+    %div{:data => {'ng-hide': '{{cookbook.materials.length > 0}}'}}
+      %h5.text-muted.text-center No Materials
+    %div{:data => {'ng-show': '{{cookbook.materials.length > 0}}'}}
+      %table.table.table-striped
+        %thead
+          %tr
+            %th.col-md-5 Name
+            %th.col-md-3.text-center Quantity
+            %th.col-md-4.text-center Unit
+        %tbody
+          %tr{:data => {'ng-repeat': 'material in cookbook.materials track by material.id'}}
+            %td {{material.name}}
+            %td.text-center {{material.quantity}}
+            %td.text-center {{material.unit}}
+
+  .modal-footer
+    %button.btn.btn-primary{:type => :button, :data => {'ng-click' => 'ok()'}} Close

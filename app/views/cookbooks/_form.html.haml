@@ -10,7 +10,7 @@
 
       .form-group
         %label Image
-        %div{:data => {'ng-hide' => '{{cookbook.image === undefined}}'}}
+        %div{:data => {'ng-hide' => '{{cookbook.image == undefined}}'}}
           %img{:data => { 'ng-src' => '{{cookbook.image}}' }, :alt => 'Cookbook_{{cookbook.id}}', :width => 48, :height => 48 }
         %input#file_uploader{:type => :file, :data => {'ng-file-select' => 'uploadImage', 'ng-product-id' => '{{cookbook.id}}'}, 'file-model' => 'file', :accept => 'image/*'}
         .text-danger{:data => {'ng-hide' => 'imageUploaded'}} Uploading...
