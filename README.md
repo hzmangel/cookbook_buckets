@@ -24,6 +24,7 @@ The app is deployed on [heroku](http://cookbook-buckets.herokuapp.com/), and ima
 * Upload to Google sheet is not implemented.
 * The list will be reloaded after every modify request, will change to only update modified records and avoid reloading the whole list.
 * Add validator for input fields.
+* Promot confirmation for delete operation.
 
 
 
