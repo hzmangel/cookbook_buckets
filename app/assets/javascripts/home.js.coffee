@@ -105,6 +105,7 @@ cookbookApp.controller 'CookbookListController', [
   ($scope, $http, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
     $scope.cookbooks = []
     $scope.cookbook = {}
+    $scope.search_params = {}
 
     initialParams =
       count: 10
@@ -237,10 +238,12 @@ cookbookApp.controller 'CookbookListController', [
         resolve:
           materials: ->
             materials
+          search_params: ->
+            $scope.search_params
       )
 
       modalInstance.result.then (search_params) ->
-        console.log search_params
+        $scope.search_params = search_params
         $scope.cookbooks = Cookbooks.search(searchParams: search_params)
         $scope.tableParams.reload()
         Notification.success('Search result returned')
@@ -290,12 +293,13 @@ controller 'CookbookModalInstanceCtrl',
 # Search modal
 angular.module('cookbookApp').
 controller 'CookbookSearchModalInstanceCtrl',
-($scope, $uibModalInstance, materials) ->
+($scope, $uibModalInstance, materials, search_params) ->
 
   $scope.materials = materials
 
-  $scope.search_params = {}
-  $scope.search_params.selected_materials = []
+  $scope.search_params = search_params
+  if $scope.search_params.selected_materials == undefined
+    $scope.search_params.selected_materials = []
 
   $scope.search = ->
     $uibModalInstance.close $scope.search_params
