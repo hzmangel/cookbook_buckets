@@ -6,6 +6,7 @@ json.array! @rcds do |r|
   end
 
   json.materials r.material_quantities.each do |mat_r|
+    next if mat_r.material.nil?
     json.id mat_r.material_id
     json.name mat_r.material.name
     json.call(mat_r, :quantity, :unit)
