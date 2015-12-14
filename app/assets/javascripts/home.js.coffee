@@ -123,7 +123,13 @@ cookbookApp.controller 'CookbookListController', [
     $scope.tableParams = new NgTableParams(initialParams, initialSettings)
 
     $scope.popularCookbookList = ->
-      $scope.cookbooks = Cookbooks.query()
+      Cookbooks.query ((data) ->
+        $scope.cookbooks = data
+        return
+      ), (error) ->
+        Notification.error('Server error, please contact us')
+        return
+
       $scope.selected_id = 0
 
     $scope.show = (rcd_id) ->
@@ -156,8 +162,14 @@ cookbookApp.controller 'CookbookListController', [
     $scope.delete = (rcd_id) ->
       $scope.cookbook = $filter('filter')($scope.cookbooks, id: rcd_id)[0]
       $scope.cookbook.$delete ( ->
-        $scope.cookbooks = Cookbooks.query()
-        Notification.success('Record deleted Successfully')
+        Cookbooks.query ((data) ->
+          $scope.cookbooks = data
+          Notification.success('Record deleted Successfully')
+          return
+        ), (error) ->
+          Notification.error('Server error, please contact us')
+          return
+
       ), (errorResponse) ->
         Notification.error(errorResponse.data.message)
         return
@@ -178,15 +190,25 @@ cookbookApp.controller 'CookbookListController', [
       modalInstance.result.then (cookbook) ->
         if $scope.selected_id != 0
           cookbook.$update ( ->
-            $scope.cookbooks = Cookbooks.query()
-            Notification.success('Record updated Successfully')
+            Cookbooks.query ((data) ->
+              $scope.cookbooks = data
+              Notification.success('Record updated Successfully')
+              return
+            ), (error) ->
+              Notification.error('Server error, please contact us')
+              return
           ), (errorResponse) ->
             Notification.error(errorResponse.data.message)
             return
         else
           cookbook.$save ((cookbook, req) ->
-            $scope.cookbooks = Cookbooks.query()
-            Notification.success('Record created Successfully')
+            Cookbooks.query ((data) ->
+              $scope.cookbooks = data
+              Notification.success('Record created Successfully')
+              return
+            ), (error) ->
+              Notification.error('Server error, please contact us')
+              return
           ), (errorResponse) ->
             Notification.error(errorResponse.data.message)
             return
