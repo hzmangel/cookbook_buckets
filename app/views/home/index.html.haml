@@ -1,5 +1,6 @@
 = render partial: 'cookbooks/form'
 = render partial: 'cookbooks/search'
+= render partial: 'cookbooks/show'
 
 .container{:data => {'ng-controller' => 'CookbookListController'}}
   %h2.page-header
@@ -22,5 +23,6 @@
           %td{:data => {:title => '"Desc"'}, :sortable => false}{{cookbook.desc}}
           %td.text-center{:data => {:title => '"CreatedAt"'}, :sortable => ' "created_at" '}{{cookbook.created_at | date:"yyyy/M/d HH:mm:ss":"+0800"}}
           %td.col-md-2
+            %a.btn.btn-warning.btn-sm{:data => {'ng-click' => 'show(cookbook.id)', 'ng-href' => '#'}} Show
             %a.btn.btn-primary.btn-sm{:data => {'ng-click' => 'edit(cookbook.id)', 'ng-href' => '#'}} Edit
             %a.btn.btn-danger.btn-sm{:data => {'ng-click' => 'delete(cookbook.id)', 'ng-href' => '#'}} Delete

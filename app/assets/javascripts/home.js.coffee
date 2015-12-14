@@ -126,6 +126,23 @@ cookbookApp.controller 'CookbookListController', [
       $scope.cookbooks = Cookbooks.query()
       $scope.selected_id = 0
 
+    $scope.show = (rcd_id) ->
+      $scope.selected_id = rcd_id
+      $scope.cookbook = $filter('filter')($scope.cookbooks, id: $scope.selected_id)[0]
+      $scope.openViewModal('edit')
+
+    $scope.openViewModal = (modal_type) ->
+      modalInstance = $uibModal.open(
+        animation: true
+        size: 'lg',
+        templateUrl: 'cookbookShow.html'
+        controller: 'CookbookViewModalInstanceCtrl'
+        resolve:
+          cookbook: ->
+            $scope.cookbook
+      )
+      return
+
     $scope.new = ->
       $scope.selected_id = 0
       $scope.cookbook = new Cookbooks({})
@@ -263,6 +280,19 @@ controller 'CookbookSearchModalInstanceCtrl',
     return
 
   $scope.cancel = ->
+    $uibModalInstance.dismiss 'cancel'
+    return
+
+  return
+
+# View modal
+angular.module('cookbookApp').
+controller 'CookbookViewModalInstanceCtrl',
+($scope, $uibModalInstance, cookbook) ->
+
+  $scope.cookbook = cookbook
+
+  $scope.ok = ->
     $uibModalInstance.dismiss 'cancel'
     return
 
