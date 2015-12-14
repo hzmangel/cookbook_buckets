@@ -103,8 +103,8 @@ cookbookApp.controller 'CookbookListController', [
   'Notification'
   'Cookbooks'
   ($scope, $http, $filter, $uibModal, NgTableParams, Notification, Cookbooks) ->
-    $scope.cookbooks = []
-    $scope.cookbook = {}
+    $scope.cookbooks = [] # For all cookbooks
+    $scope.cookbook = {} # For create/update cookbook
     $scope.search_params = {}
 
     initialParams =
