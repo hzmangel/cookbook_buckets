@@ -6,20 +6,20 @@ class CookbooksController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    @rcds = Cookbook.all
+    @cookbooks = Cookbook.all
   end
 
   def create
-    @rcd = Cookbook.new(permit_params)
+    @cookbook = Cookbook.new(permit_params)
 
-    if @rcd.save
-      @rcd.process_tags(@tags_from_api)
-      @rcd.process_materials(@materials_from_api)
+    if @cookbook.save
+      @cookbook.process_tags(@tags_from_api)
+      @cookbook.process_materials(@materials_from_api)
       # TODO: Save record to GSheet with shareable permission
-      render json: @rcd, status: :created
+      render json: @cookbook, status: :created
     else
       # TODO: render with error code or status code
-      render json: { errors: @rcd.errors }
+      render json: { errors: @cookbook.errors }
     end
   end
 
@@ -27,22 +27,22 @@ class CookbooksController < ApplicationController
   end
 
   def update
-    if @rcd.update(permit_params)
-      @rcd.process_tags(@tags_from_api)
-      @rcd.process_materials(@materials_from_api)
+    if @cookbook.update(permit_params)
+      @cookbook.process_tags(@tags_from_api)
+      @cookbook.process_materials(@materials_from_api)
       # TODO: Update GDoc content
-      render json: @rcd
+      render json: @cookbook
     else
       # TODO: render with error code or status code
-      render json: { errors: @rcd.errors }
+      render json: { errors: @cookbook.errors }
     end
   end
 
   def destroy
-    if @rcd.destroy
+    if @cookbook.destroy
       head :no_content
     else
-      render json: { errors: @rcd.errors }
+      render json: { errors: @cookbook.errors }
     end
   end
 
@@ -66,14 +66,14 @@ class CookbooksController < ApplicationController
 
     end
 
-    @rcds = Cookbook.find(rcd_ids)
+    @cookbooks = Cookbook.find(rcd_ids)
     render :index
   end
 
   private
 
   def prepare_rcd
-    @rcd = Cookbook.find(params[:id])
+    @cookbook = Cookbook.find(params[:id])
   end
 
   def separate_params
